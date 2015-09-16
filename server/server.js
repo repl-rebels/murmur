@@ -4,7 +4,7 @@ var tokenFactory = require('./firebaseTokenFactory').tokenFactory;
 var app = express();
 var bodyParser = require('body-parser');
 var Cookies = require("cookies");
-var serverUrl = '107.170.240.99';
+var serverUrl = '127.0.0.1';
 var fs = require('fs')
 
 app.use('/murmur', express.static('../client'));
