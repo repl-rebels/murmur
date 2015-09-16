@@ -1,5 +1,6 @@
 var React = require('react');
-var url = 'http://107.170.240.99:4000/';
+var url = 'http://127.0.0.1:4000/';
+// var url = 'http://107.170.240.99:4000/';
 
 var InputBox = React.createClass({
   getInitialState: function() {

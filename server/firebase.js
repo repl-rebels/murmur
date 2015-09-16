@@ -55,8 +55,8 @@ var insertPost = exports.insertPost = function(request, response, dataRef){
         var url = 'https://mks22.slack.com/api/chat.postMessage'
 
         slackMessage = {
-          token: 'xoxp-6711708658-6752831218-9166692273-ff23b3',
-          channel: '#mur_mur',
+          token: 'xoxb-10846461925-JOzhsdWjZcydjD8pERpuPyi8',
+          channel: '#murr_muRR',
           text: postMessage,
           username: 'MurMur Bot'
         }
