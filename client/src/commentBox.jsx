@@ -10,7 +10,7 @@ var commentBox = React.createClass({
   // Update message value whenever user changes the message in the comment box
   handleChange: function(event){
     if(event.target.value.length <= 150) { // Message cannot be longer than 150 characters
-      console.log(this.props.token)
+      console.log(this.props.token);
       this.setState({
         'comment': event.target.value,
       });

@@ -10,12 +10,12 @@ var guid = function() {
     }
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
       s4() + '-' + s4() + s4() + s4();
-  }
+  };
 
-function randomFromInterval(from,to){ return Math.floor(Math.random()*(to-from+1)+from); };
+function randomFromInterval(from,to){ return Math.floor(Math.random()*(to-from+1)+from); }
 
 var tokenFactory = exports.tokenFactory = function(optionsObject){
-  var tokenPayload
+  var tokenPayload;
   if(optionsObject && optionsObject.uid){ // Modify Old Session Token
     tokenPayload = optionsObject;
   } else{ // New Session Token
@@ -29,12 +29,12 @@ var tokenFactory = exports.tokenFactory = function(optionsObject){
       votedMessagesId: [],
       baseId: baseId,
       hairId: hairId,
-    }
+    };
   }
 
   var token = tokenGenerator.createToken(tokenPayload);
   return token;
-}
+};
 
 
 var Firebase = require('firebase');

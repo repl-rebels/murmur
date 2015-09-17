@@ -9,7 +9,7 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       commentBox: 'false',
-    }
+    };
   },
   upVote: function(event){
 
@@ -25,7 +25,7 @@ module.exports = React.createClass({
       }),
       success: function(){
       }
-    })
+    });
   },
   downVote: function(event){
 
@@ -41,7 +41,7 @@ module.exports = React.createClass({
       }),
       success: function(){
       }
-    })
+    });
   },
   render: function() {
     return (

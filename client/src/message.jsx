@@ -15,7 +15,7 @@ var Message = React.createClass({
   },
 
   toggleCommentsView: function(){
-    this.setState({ commentsView: !this.state.commentsView })
+    this.setState({ commentsView: !this.state.commentsView });
   },
 
   // Post upvote data to Server
@@ -85,16 +85,16 @@ var Message = React.createClass({
       for(commentKey in this.props.comments){
         var comments = this.props.comments[commentKey];
         commentRows.push(
-          <CommentMessage
-            key={ comments.commentId }
-            token={ this.props.token }
-            auth={ this.props.auth }
-            messageId={ this.props.messageId }
-            commentId={ comments.commentId }
-            commentMessage={ comments.comment }
-            commentVotes={ comments.votes }
-            commentTimestamp={ comments.timestamp }
-            baseId={ comments.baseId }
+          <CommentMessage;
+            key={ comments.commentId };
+            token={ this.props.token };
+            auth={ this.props.auth };
+            messageId={ this.props.messageId };
+            commentId={ comments.commentId };
+            commentMessage={ comments.comment };
+            commentVotes={ comments.votes };
+            commentTimestamp={ comments.timestamp };
+            baseId={ comments.baseId };
             hairId={ comments.hairId } />
         );
       }

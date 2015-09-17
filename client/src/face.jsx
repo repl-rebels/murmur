@@ -1,5 +1,5 @@
 var React = require('react');
-var StyleSheet = require('react-style')
+var StyleSheet = require('react-style');
 
 module.exports = React.createClass({
   render: function() {
