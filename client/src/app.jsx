@@ -2,6 +2,7 @@ var React = require('react');
 var ViewAllMessages = require('./viewAllMessages');
 var TopBar = require('./topbar');
 var InputBox = require('./inputbox');
+var SearchBox = require('./searchbox');
 var Firebase = require('firebase');
 
 
@@ -22,10 +23,10 @@ var auth = document.auth = cookies.auth;
 
 var mainView = React.createClass({
 
-  messages: [],
+  // messages: [],
   getInitialState: function(){
     return {
-      messages: '',
+      messages: [],
       sort: 'recent',
       token: '',
       auth: '',
@@ -98,6 +99,7 @@ var mainView = React.createClass({
               <button className="btn btn-default" style={{fontFamily: 'Roboto'}} onClick={ this.handleMyPosts }>My Posts</button>
             </div>
             <InputBox token={ this.state.token } auth={ this.state.auth }/>
+            <SearchBox token={ this.state.token } auth={ this.state.auth }/>
           </div>
           <ViewAllMessages sortBy={ this.state.sort } messages={ this.state.messages } sessions={ this.state.sessions }token={ this.state.token } auth={ this.state.auth }/>
         </div>
