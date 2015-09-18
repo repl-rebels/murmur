@@ -39,3 +39,5 @@ Thumbs.db
 # NPM Modules #
 ######################
 /node_modules
+
+firebaseSandbox.js

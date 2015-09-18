@@ -38,7 +38,8 @@ var mainView = React.createClass({displayName: "mainView",
   componentWillMount: function(){
     if(token){
       var context = this;
-      this.firebaseRef = new Firebase('https://fiery-heat-3376.firebaseio.com/');
+      this.firebaseRef = new Firebase('https://radiant-heat-7333.firebaseio.com/');
+      // this.firebaseRef = new Firebase('https://fiery-heat-3376.firebaseio.com/');
       this.firebaseRef.authWithCustomToken(token, function(error, authData){
         if(error){
           console.log('Problem connecting to Database')
@@ -88,18 +89,18 @@ var mainView = React.createClass({displayName: "mainView",
   },
   render: function(){
     return (
-      React.createElement("div", null, 
-        React.createElement(TopBar, null), 
-        React.createElement("div", null, 
-          React.createElement("div", {style: this.styles.filter}, 
-            React.createElement("div", {className: "btn-group", style: {display: 'inline-block'}}, 
-              React.createElement("button", {className: "btn btn-default", style: {fontFamily: 'Roboto'}, onClick:  this.handleSortRecent}, " New "), 
-              React.createElement("button", {className: "btn btn-default", style: {fontFamily: 'Roboto'}, onClick:  this.handleSortPopular}, " Hot "), 
-              React.createElement("button", {className: "btn btn-default", style: {fontFamily: 'Roboto'}, onClick:  this.handleFavorites}, "Favorites"), 
+      React.createElement("div", null,
+        React.createElement(TopBar, null),
+        React.createElement("div", null,
+          React.createElement("div", {style: this.styles.filter},
+            React.createElement("div", {className: "btn-group", style: {display: 'inline-block'}},
+              React.createElement("button", {className: "btn btn-default", style: {fontFamily: 'Roboto'}, onClick:  this.handleSortRecent}, " New "),
+              React.createElement("button", {className: "btn btn-default", style: {fontFamily: 'Roboto'}, onClick:  this.handleSortPopular}, " Hot "),
+              React.createElement("button", {className: "btn btn-default", style: {fontFamily: 'Roboto'}, onClick:  this.handleFavorites}, "Favorites"),
               React.createElement("button", {className: "btn btn-default", style: {fontFamily: 'Roboto'}, onClick:  this.handleMyPosts}, "My Posts")
-            ), 
+            ),
             React.createElement(InputBox, {token:  this.state.token, auth:  this.state.auth})
-          ), 
+          ),
           React.createElement(ViewAllMessages, {sortBy:  this.state.sort, messages:  this.state.messages, sessions:  this.state.sessions, token:  this.state.token, auth:  this.state.auth})
         )
       )
@@ -184,9 +185,9 @@ var commentBox = React.createClass({displayName: "commentBox",
   // two-way binding commentBox's value and this.state.comment
   render: function() {
     return (
-        React.createElement("div", {className: "input-group", style: {padding: '15px'}}, 
-          React.createElement("input", {value: this.state.comment, onChange: this.handleChange, onKeyDown: this.enterPressed, type: "text", className: "form-control", placeholder: "Enter your comment here."}), 
-          React.createElement("span", {className: "input-group-btn"}, 
+        React.createElement("div", {className: "input-group", style: {padding: '15px'}},
+          React.createElement("input", {value: this.state.comment, onChange: this.handleChange, onKeyDown: this.enterPressed, type: "text", className: "form-control", placeholder: "Enter your comment here."}),
+          React.createElement("span", {className: "input-group-btn"},
             React.createElement("button", {onClick: this.handleClick, className: "btn btn-success", type: "button"}, " Submit ")
           )
         )
@@ -244,25 +245,25 @@ module.exports = React.createClass({displayName: "exports",
   },
   render: function() {
     return (
-      React.createElement("div", {id:  this.props.commentId, key:  this.props.commentId}, 
-        React.createElement("div", {className: "conatiner", style: {float: 'left', clear: 'both', marginBottom: '5px'}}, 
-          React.createElement("div", {style:  this.styles.commentContainer}, 
-            React.createElement("span", {style: {float: "left"}}, 
+      React.createElement("div", {id:  this.props.commentId, key:  this.props.commentId},
+        React.createElement("div", {className: "conatiner", style: {float: 'left', clear: 'both', marginBottom: '5px'}},
+          React.createElement("div", {style:  this.styles.commentContainer},
+            React.createElement("span", {style: {float: "left"}},
               React.createElement(Face, {baseId:  this.props.baseId, hairId:  this.props.hairId, key:  this.props.commentId})
-            ), 
-            React.createElement("span", {style: {float: "left"}}, 
-              React.createElement("p", {style: {fontFamily: 'Alegreya', color: 'black', fontSize: '1em'}}, 
+            ),
+            React.createElement("span", {style: {float: "left"}},
+              React.createElement("p", {style: {fontFamily: 'Alegreya', color: 'black', fontSize: '1em'}},
                  this.props.commentMessage
-              ), 
-              React.createElement("span", {style: {fontFamily: 'Alegreya', fontStyle: "italic", fontSize: '.8em', float: "left"}}, 
+              ),
+              React.createElement("span", {style: {fontFamily: 'Alegreya', fontStyle: "italic", fontSize: '.8em', float: "left"}},
                 "(",  moment(this.props.commentTimestamp).fromNow(), ")"
               )
             )
           )
-        ), 
-        React.createElement("div", {style:  this.styles.voteContainer}, 
-          React.createElement("i", {className: "glyphicon glyphicon-chevron-up", style: {color: "#0000FF"}, onClick:  this.upVote}), 
-            React.createElement("span", {className: "count", style:  this.styles.voteCount}, " ",  this.props.commentVotes, " "), 
+        ),
+        React.createElement("div", {style:  this.styles.voteContainer},
+          React.createElement("i", {className: "glyphicon glyphicon-chevron-up", style: {color: "#0000FF"}, onClick:  this.upVote}),
+            React.createElement("span", {className: "count", style:  this.styles.voteCount}, " ",  this.props.commentVotes, " "),
           React.createElement("i", {className: "glyphicon glyphicon-chevron-down", style: {color: "#0000FF"}, onClick:  this.downVote})
         )
       )
@@ -318,12 +319,12 @@ module.exports = React.createClass({displayName: "exports",
     var hairUrl = 'url(./src/img/face/hair/hair-' + this.props.hairId +'.png)';
     this.styles.hairPng.backgroundImage = hairUrl;
     return(
-            React.createElement("span", {className: "face-wrap"}, 
-              React.createElement("span", {className: "face"}, 
-                React.createElement("span", {className: "face-base", 
+            React.createElement("span", {className: "face-wrap"},
+              React.createElement("span", {className: "face"},
+                React.createElement("span", {className: "face-base",
                   style:  this.styles.basePng}
-                ), 
-                React.createElement("span", {className: "face-hair", 
+                ),
+                React.createElement("span", {className: "face-hair",
                   style:  this.styles.hairPng}
                 )
               )
@@ -412,9 +413,9 @@ var InputBox = React.createClass({displayName: "InputBox",
   // two-way binding inputbox's value and this.state.message
   render: function() {
     return (
-      React.createElement("div", {className: "input-group", style: {padding: '15px'}}, 
-        React.createElement("input", {value: this.state.message, onChange: this.handleChange, onKeyDown: this.enterPressed, type: "text", className: "form-control", placeholder: "What's on your mind?"}), 
-        React.createElement("span", {className: "input-group-btn"}, 
+      React.createElement("div", {className: "input-group", style: {padding: '15px'}},
+        React.createElement("input", {value: this.state.message, onChange: this.handleChange, onKeyDown: this.enterPressed, type: "text", className: "form-control", placeholder: "What's on your mind?"}),
+        React.createElement("span", {className: "input-group-btn"},
           React.createElement("button", {onClick: this.handleClick, className: "btn btn-success", type: "button"}, " Submit ")
         )
       )
@@ -513,15 +514,15 @@ var Message = React.createClass({displayName: "Message",
         var comments = this.props.comments[commentKey];
         commentRows.push(
           React.createElement(CommentMessage, {
-            key:  comments.commentId, 
-            token:  this.props.token, 
-            auth:  this.props.auth, 
-            messageId:  this.props.messageId, 
-            commentId:  comments.commentId, 
-            commentMessage:  comments.comment, 
-            commentVotes:  comments.votes, 
-            commentTimestamp:  comments.timestamp, 
-            baseId:  comments.baseId, 
+            key:  comments.commentId,
+            token:  this.props.token,
+            auth:  this.props.auth,
+            messageId:  this.props.messageId,
+            commentId:  comments.commentId,
+            commentMessage:  comments.comment,
+            commentVotes:  comments.votes,
+            commentTimestamp:  comments.timestamp,
+            baseId:  comments.baseId,
             hairId:  comments.hairId})
         );
       }
@@ -559,47 +560,47 @@ var Message = React.createClass({displayName: "Message",
         }
 
     return (
-      React.createElement("div", {className: "jumbotron", id:  this.props.messageId, style: { borderRadius: '40px', paddingLeft: '0', paddingRight: '0', paddingTop: '15px', paddingBottom: '7px', backgroundColor: '#ECF0F5'}}, 
-        React.createElement("div", {className: "container"}, 
-          React.createElement("div", {className: "col-xs-10", style: { marginBottom: '20px', paddingLeft:'10px', marginBottom: '0'}}, 
-            React.createElement("p", {style: {fontFamily: 'Alegreya', color: 'chocolate', marginLeft: "10px", marginBottom: '0'}}, 
+      React.createElement("div", {className: "jumbotron", id:  this.props.messageId, style: { borderRadius: '40px', paddingLeft: '0', paddingRight: '0', paddingTop: '15px', paddingBottom: '7px', backgroundColor: '#ECF0F5'}},
+        React.createElement("div", {className: "container"},
+          React.createElement("div", {className: "col-xs-10", style: { marginBottom: '20px', paddingLeft:'10px', marginBottom: '0'}},
+            React.createElement("p", {style: {fontFamily: 'Alegreya', color: 'chocolate', marginLeft: "10px", marginBottom: '0'}},
                this.props.message
             )
-          ), 
-          React.createElement("div", {className: "votes col-xs-2", style:  this.styles.votes}, 
-            React.createElement("div", {style:  this.styles.voteContainer}, 
-              React.createElement("i", {className: "glyphicon glyphicon-chevron-up", style: {color: "#0000FF"}, onClick:  this.upVote}), 
-              React.createElement("span", {className: "count", style: {fontFamily: 'Alegreya'}}, " ",  this.props.votes, " "), 
+          ),
+          React.createElement("div", {className: "votes col-xs-2", style:  this.styles.votes},
+            React.createElement("div", {style:  this.styles.voteContainer},
+              React.createElement("i", {className: "glyphicon glyphicon-chevron-up", style: {color: "#0000FF"}, onClick:  this.upVote}),
+              React.createElement("span", {className: "count", style: {fontFamily: 'Alegreya'}}, " ",  this.props.votes, " "),
               React.createElement("i", {className: "glyphicon glyphicon-chevron-down", style: {color: "#0000FF"}, onClick:  this.downVote})
             )
-          ), 
+          ),
 
-          React.createElement("div", {className: "col-xs-12", style: {paddingLeft:'10px'}}, 
-            React.createElement("div", {className: "col-xs-1", style:  styleFavorites }, 
-              React.createElement("span", {style:  {float: "left"}, onClick:  this.toggleFavorite}, 
+          React.createElement("div", {className: "col-xs-12", style: {paddingLeft:'10px'}},
+            React.createElement("div", {className: "col-xs-1", style:  styleFavorites },
+              React.createElement("span", {style:  {float: "left"}, onClick:  this.toggleFavorite},
                 React.createElement("i", {className: "glyphicon glyphicon-heart"})
               )
-            ), 
-            React.createElement("div", {className: "col-xs-2", style:  this.styles.timestamp}, 
-              React.createElement("i", {className: "glyphicon glyphicon-time", style:  this.styles.iconStyle}), 
-              React.createElement("span", {style: {fontFamily:"Alegreya", fontStyle: "italic", fontSize: '.8em', position: 'relative', top: '-7px'}}, 
-                 moment(this.props.timestamp).fromNow() 
+            ),
+            React.createElement("div", {className: "col-xs-2", style:  this.styles.timestamp},
+              React.createElement("i", {className: "glyphicon glyphicon-time", style:  this.styles.iconStyle}),
+              React.createElement("span", {style: {fontFamily:"Alegreya", fontStyle: "italic", fontSize: '.8em', position: 'relative', top: '-7px'}},
+                 moment(this.props.timestamp).fromNow()
               )
-            ), 
-            React.createElement("div", {style:  this.styles.comments}, 
-              React.createElement("div", {className: "commentViewToggle", onClick:  this.toggleCommentsView}, 
-                React.createElement("i", {className: "glyphicon glyphicon-comment", style:  this.styles.iconStyle}), 
-                React.createElement("span", {style: {fontStyle: "italic", fontSize: '.8em'}}, 
-                  React.createElement("span", {style: {fontFamily:"Alegreya", fontWeight: 'bold', color: 'blue', fontSize: '1.1em', position: 'relative', top: '-7px'}}, " ",  this.state.commentsView ? 'hide ' : 'show ', " "), 
+            ),
+            React.createElement("div", {style:  this.styles.comments},
+              React.createElement("div", {className: "commentViewToggle", onClick:  this.toggleCommentsView},
+                React.createElement("i", {className: "glyphicon glyphicon-comment", style:  this.styles.iconStyle}),
+                React.createElement("span", {style: {fontStyle: "italic", fontSize: '.8em'}},
+                  React.createElement("span", {style: {fontFamily:"Alegreya", fontWeight: 'bold', color: 'blue', fontSize: '1.1em', position: 'relative', top: '-7px'}}, " ",  this.state.commentsView ? 'hide ' : 'show ', " "),
                   React.createElement("span", {style: {fontFamily:"Alegreya", position: 'relative', top: '-7px'}}, " ",  commentNumber + ' comments', " ")
                 )
               )
             )
-          ), 
+          ),
 
-          React.createElement("div", {style:  this.state.commentsView ? this.styles.commentsView : this.styles.hidden}, 
-            React.createElement(CommentBox, {messageId:  this.props.messageId, token:  this.props.token, auth:  this.props.auth}), 
-             commentRowsSortedOptions['recent'] 
+          React.createElement("div", {style:  this.state.commentsView ? this.styles.commentsView : this.styles.hidden},
+            React.createElement(CommentBox, {messageId:  this.props.messageId, token:  this.props.token, auth:  this.props.auth}),
+             commentRowsSortedOptions['recent']
           )
 
         )
@@ -649,9 +650,9 @@ var React = require('react');
 TopBar = React.createClass({displayName: "TopBar",
   render: function() {
     return (
-      React.createElement("div", {className: "navbar navbar-default navbar-fixed-top", style: {'backgroundColor': 'rgb(5,101,188)'}}, 
-        React.createElement("div", {className: "container"}, 
-          React.createElement("div", {className: "navbar-header", style: {'float': 'left', 'padding': '15px', 'textAlign': 'center', 'width': '100%'}}, 
+      React.createElement("div", {className: "navbar navbar-default navbar-fixed-top", style: {'backgroundColor': 'rgb(5,101,188)'}},
+        React.createElement("div", {className: "container"},
+          React.createElement("div", {className: "navbar-header", style: {'float': 'left', 'padding': '15px', 'textAlign': 'center', 'width': '100%'}},
             React.createElement("a", {href: "", className: "navbar-brand", style: {'fontFamily': 'Sarina', 'color': 'white', 'float': 'none'}}, " Murmur")
           )
         )
@@ -679,18 +680,18 @@ var ViewAllMessages = React.createClass({displayName: "ViewAllMessages",
       var message = messagesObject[messageKey];
       messageRows.push(
         React.createElement(Message, {
-          uid:  message.uid, 
-          sessions:  this.props.sessions, 
-          messageId:  message.messageId, 
-          key:  message.messageId, 
-          token:  this.props.token, 
-          auth:  this.props.auth, 
-          baseId:  message.baseId, 
-          hairId:  message.hairId, 
-          message:  message.message, 
-          comments:  message.comments, 
-          votes:  message.votes, 
-          messageId:  message.messageId, 
+          uid:  message.uid,
+          sessions:  this.props.sessions,
+          messageId:  message.messageId,
+          key:  message.messageId,
+          token:  this.props.token,
+          auth:  this.props.auth,
+          baseId:  message.baseId,
+          hairId:  message.hairId,
+          message:  message.message,
+          comments:  message.comments,
+          votes:  message.votes,
+          messageId:  message.messageId,
           timestamp:  message.timestamp})
       )
     }
@@ -720,8 +721,8 @@ var ViewAllMessages = React.createClass({displayName: "ViewAllMessages",
       }.bind(this)),
     }
     return (
-      React.createElement("div", {style:  this.styles.messageRows}, 
-         messageRowsSortedOptions[this.props.sortBy] 
+      React.createElement("div", {style:  this.styles.messageRows},
+         messageRowsSortedOptions[this.props.sortBy]
 
       )
     )
