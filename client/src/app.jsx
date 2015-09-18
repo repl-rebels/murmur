@@ -37,7 +37,8 @@ var mainView = React.createClass({
   componentWillMount: function(){
     if(token){
       var context = this;
-      this.firebaseRef = new Firebase('https://fiery-heat-3376.firebaseio.com/');
+      this.firebaseRef = new Firebase('https://radiant-heat-7333.firebaseio.com/');
+      // this.firebaseRef = new Firebase('https://fiery-heat-3376.firebaseio.com/');
       this.firebaseRef.authWithCustomToken(token, function(error, authData){
         if(error){
           console.log('Problem connecting to Database');

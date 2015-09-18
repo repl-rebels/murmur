@@ -1,26 +1,25 @@
 var Firebase = require('firebase');
-var myDataRef = new Firebase('https://fiery-heat-3376.firebaseio.com/');
+var myDataRef = new Firebase('https://radiant-heat-7333.firebaseio.com/');
 var tokenFactory = require('./firebaseTokenFactory').tokenFactory;
 var Cookies = require('cookies');
 var httpRequest = require('request');
 
 var freshPost = myDataRef.child('Fresh Post');
 
-var setTokenCookie = exports.setTokenCookie = function (request, response, token){
-  newtoken = tokenFactory();
-  if(token !== undefined){
-    newToken = token;
-  }
-  response.cookies.set('token', newToken, {
-    maxAge: 2628000000,   // expires in 1 month
-    httpOnly: false,    // more secure but then can't access from client
-  });
-  response.send("MurMur'd");
-};
-
+// var setTokenCookie = exports.setTokenCookie = function (request, response, token){
+//   newtoken = tokenFactory();
+//   if(token !== undefined){
+//     newToken = token;
+//   }
+//   response.cookies.set('token', newToken, {
+//     maxAge: 2628000000,   // expires in 1 month
+//     httpOnly: false,    // more secure but then can't access from client
+//   });
+//   response.send("MurMur'd");
+// };
 
 var insertPost = exports.insertPost = function(request, response, dataRef){
-  var dataRef = dataRef || freshPost;
+  var dataRef = dataRef || freshPost; //dataRef doesnt get passed, so dataRef=freshPost
   var token = request.cookies.get('token') || request.body.token; // body.token is for Slack
   var newToken;
   var newJwtClaims;
@@ -28,15 +27,16 @@ var insertPost = exports.insertPost = function(request, response, dataRef){
   if (token) {
     dataRef.authWithCustomToken(token, function(error, authData) {
       if (error) {
-        console.log("Login Failed!", error);
+        console.log("Login Failed! @31 with token: ", token, "and error message...", error);
       }
       else {
         var postMessage = request.body.message;
         var post = dataRef.push();    //ID generator
-        var postId = post.key();      //Grabs the ID
-
+        var postId = post.key();      //Grabs the ID...eg(JzSSocAObWXssweuiJP)
+        //
+        //1.store messages to FireBase with these key/value pairs.
         post.set({                    //Pushes the post data into the database
-          uid: authData.auth.uid,
+          uid: authData.auth.uid, //the guid generated from firebaseTokenFactory.a random 37-char guid. eg('74c11731-c901-9e4e-331d-61e983a4fbb5')
           messageId : postId,
           message : postMessage,
           timestamp : Firebase.ServerValue.TIMESTAMP,
@@ -44,39 +44,43 @@ var insertPost = exports.insertPost = function(request, response, dataRef){
           comments : "no comments"
         });
 
+
         var fbRef = dataRef.parent();
         var postIdRef = fbRef.child('sessions/' + authData.auth.uid + '/posted/' + postId);
-
+        //
+        //2. storage user session info to FireBase so that it can be used for voting/'my posts'
         postIdRef.set({ type: 'true' });
 
-        newJwtClaims = authData.auth;
-        newJwtClaims.postedMessagesId = newJwtClaims.postedMessagesId + 1;
-        newToken = tokenFactory(newJwtClaims);
+
         var url = 'https://mks22.slack.com/api/chat.postMessage';
-
-        slackMessage = {
+        var slackMessage = {
           token: 'xoxb-10846461925-JOzhsdWjZcydjD8pERpuPyi8',
-          channel: '#murr_muRR',
+          channel: '#mur_mur',
           text: postMessage,
-          username: 'MurMur Bot'
+          username: 'MurMur Rebel-Bot'
         };
-
-        httpRequest.post( url,
-          {
-            form: slackMessage
-          },
-          function(err, data){
-              console.log('Slack Message Posted');
+        var formattedMessage = {form: slackMessage};
+        var callback = function(err, data){
+          if(err) {
+            console.log('Slack Message Not Sent! Err:', err);
+          } else {
+          console.log('Slack Message Posted');
           }
-        );
+        };
+        //
+        //3. sends message to Slack Server
+        httpRequest.post(url, formattedMessage, callback);
 
-
-        setTokenCookie(request, response, newToken);
+        // newJwtClaims = authData.auth;
+        // newJwtClaims.postedMessagesId = newJwtClaims.postedMessagesId + 1;
+        // newToken = tokenFactory(newJwtClaims);
+        //set a Token Cookie everytime the user posts a message
+        // setTokenCookie(request, response, newToken);
       }
     });
   }
-
-  return { newToken: newToken, auth: newJwtClaims };
+  //useless code.
+  // return { newToken: newToken, auth: newJwtClaims };
 };
 
 var votePost = exports.votePost = function(request, response, dataRef){
