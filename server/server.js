@@ -8,83 +8,82 @@ var serverUrl = '127.0.0.1';
 var fs = require('fs');
 var cors = require('cors');
 
-
 app.use(cors());
 app.use('/murmur', express.static('../client'));
 app.use(bodyParser.json());
 
 
-app.use(Cookies.express())
+app.use(Cookies.express());
 
-// app.get('/noToken', function(request, response){
-//   fs.readFile('../client/src/invite.html', function(err, data){
-//     if(err){
-//       console.log('error reading invite.html')
-//     }
-//     response.setHeader('Content-Type', 'text/html')
-//     response.send(data)
-//   })
-// })
+app.get('/noToken', function(request, response) {
+  fs.readFile('../client/src/invite.html', function(err, data) {
+    if (err) {
+      console.log('error reading invite.html');
+    }
+    response.setHeader('Content-Type', 'text/html');
+    response.send(data);
+  });
+});
 
-// app.post('/noToken', function(request, response){
-//   console.log('inviteCode entered is: ', request.body.inviteCode);
-//   if(request.cookies.get('token')){
-//     console.log('already have a token')
-//     request.method = 'get';
-//     response.send({redirect: '/murmur'});
-//   } else if(request.body.inviteCode === 'mks22'){                   // set Token Cookie
-//     response.cookies.set('token', tokenFactory(), {
-//       maxAge: 2628000000,   // expires in 1 month
-//       httpOnly: false,    // more secure but then can't access from client
-//     })
-//     request.method = 'get';
-//     response.send({redirect: '/murmur'});
-//   } else {
-//     response.send('Correct Invitation Code Required.')
-//   }
-// })
+app.post('/noToken', function(request, response) {
+  if (request.cookies.get('token')) {
+    console.log('already have a token');
+    request.method = 'get';
+    // response.redirect('/murmur');
+    response.send({
+      redirect: '/murmur'
+    });
+  } else if (request.body.inviteCode === 'mks22') { // set Token Cookie
+    response.cookies.set('token', tokenFactory(), {
+      maxAge: 2628000000, // expires in 1 month
+      httpOnly: false, // more secure but then can't access from client
+    });
+    request.method = 'get';
+    response.send({
+      redirect: '/murmur'
+    });
+  } else {
+    response.send('Correct Invitation Code Required.');
+  }
+});
 
-app.get('/', function(request, response){
-  // if(request.cookies.get('token')){
+app.get('/', function(request, response) {
+  if (request.cookies.get('token')) {
     response.redirect('/murmur');
-  // } else {
-  //   console.log('no token redirect')
-  //   response.redirect('/noToken');
-  // }
-})
+  } else {
+    console.log('no token redirect');
+    response.redirect('/noToken');
+  }
+});
 
-app.post('/', function(request, response){ //request.body.url = 'newPost'
+app.post('/', function(request, response) { //request.body.url = 'newPost'
   var data = '';
-  request.on('data', function(chunk){
+  request.on('data', function(chunk) {
     data += chunk;
   });
 
-  console.log(data);
-
-  var slackObject = {}
-  request.on('end', function(){
-    data.split('&').forEach(function(keyVal){
+  var slackObject = {};
+  request.on('end', function() {
+    data.split('&').forEach(function(keyVal) {
       var keyValArr = keyVal.split('=');
       var key = keyValArr[0];
       var val = keyValArr[1];
       slackObject[key] = val;
-    })
- 
+    });
+
     function urlDecode(str) {
-      return decodeURIComponent((str+'').replace(/\+/g, '%20'));
-    }	
+      return decodeURIComponent((str + '').replace(/\+/g, '%20'));
+    }
 
-    console.log("This is the slackObject: ", slackObject);
-
-    // if(slackObject.token === 'nZg1PC40VFQvtd4efRvcr14N'){
+    if (slackObject.token === 'nZg1PC40VFQvtd4efRvcr14N') {
       request.body.token = tokenFactory();
       request.body.message = urlDecode(slackObject.text);
     // }
     console.log('SLAAAAAAAAACK', request.body);
     firebase.insertPost(request, response);
-  })
-  firebase.insertPost(request,response);
-})
+  });
+  firebase.insertPost(request, response);
+});
 
 app.post('/search', function(request, response){ //request.body.url = ?
   firebase.search(request, response);
@@ -92,19 +91,18 @@ app.post('/search', function(request, response){ //request.body.url = ?
 
 app.post('/comment', function(request, response){ //request.body.url = 'newPost'
   firebase.comment(request, response);
-})
+});
 
-app.post('/vote', function(request,response){ //request.body.url = 'newPost'
+app.post('/vote', function(request, response) { //request.body.url = 'newPost'
   firebase.votePost(request, response);
-})
+});
 
-app.post('/voteComment', function(request,response){ //request.body.url = 'newPost'
+app.post('/voteComment', function(request, response) { //request.body.url = 'newPost'
   firebase.voteComment(request, response);
-})
+});
 
-app.post('/favorite', function(request,response){ //request.body.url = 'newPost'
+app.post('/favorite', function(request, response) { //request.body.url = 'newPost'
   firebase.toggleFavorite(request, response);
-})
+});
 
 app.listen(4000, serverUrl);
-

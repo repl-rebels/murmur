@@ -10,12 +10,12 @@ var getCookies = function(){
   var pairs = document.cookie.split(";");
   var cookies = {};
   for (var i=0; i<pairs.length; i++){
-    pairs
+    pairs;
     var pair = pairs[i].trim().split("=");
     cookies[pair[0]] = unescape(pair[1]);
   }
   return cookies;
-}
+};
 
 var cookies = getCookies();
 var token = document.token = cookies.token;
@@ -38,25 +38,26 @@ var mainView = React.createClass({
   componentWillMount: function(){
     if(token){
       var context = this;
-      this.firebaseRef = new Firebase('https://fiery-heat-3376.firebaseio.com/');
+      this.firebaseRef = new Firebase('https://radiant-heat-7333.firebaseio.com/');
+      // this.firebaseRef = new Firebase('https://fiery-heat-3376.firebaseio.com/');
       this.firebaseRef.authWithCustomToken(token, function(error, authData){
         if(error){
-          console.log('Problem connecting to Database')
+          console.log('Problem connecting to Database');
         } else{
-          console.log('Connected to Databse')
+          console.log('Connected to Databse');
           context.setState({
             token: authData.token,
             auth: authData.auth,
           });
         }
-      })
+      });
       this.messageRef = this.firebaseRef.child('Fresh Post');
       this.messageRef.on('value', function(dataSnapshot){
         this.messages.push(dataSnapshot.val());
         this.setState({
           messages: dataSnapshot.val()
         });
-        console.log('inFreshPost', dataSnapshot.val())
+        console.log('inFreshPost', dataSnapshot.val());
       }.bind(this));
 
       this.sessionsRef = this.firebaseRef.child('sessions');
@@ -66,7 +67,7 @@ var mainView = React.createClass({
           sessions: dataSnapshot.val()
         });
       // console.log('SESSSSSSSSSSSSSSSSionREF', this.sessionRef.toString())
-        console.log('inSession', dataSnapshot.val())
+        console.log('inSession', dataSnapshot.val());
       }.bind(this));
     }
   },
@@ -84,7 +85,7 @@ var mainView = React.createClass({
     this.setState({sort: 'myPosts'});
   },
   toggleInputBox: function(){
-    this.setState({ input: !this.state.input })
+    this.setState({ input: !this.state.input });
   },
   render: function(){
     return (
