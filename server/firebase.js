@@ -18,6 +18,28 @@ var freshPost = myDataRef.child('Fresh Post');
 //   response.send("MurMur'd");
 // };
 
+var censoredWords ={
+  hate: 'love',
+  kill: 'hug',
+  crap: 'carp',
+  darn: 'donkey',
+  idiot: 'iguana',
+  fuck: 'frog',
+  bitch: 'bee',
+  shit: 'squirrel',
+  damn: 'doggie',
+  hell: 'hippopotamus',
+  cunt: 'crocodile'
+};
+
+var censor = exports.censor = function(string){
+    for(var key in censoredWords) {
+      string = string.replace(new RegExp(key, 'gi'), censoredWords[key]);
+    }
+    return string;
+};
+
+
 var insertPost = exports.insertPost = function(request, response, dataRef){
   var dataRef = dataRef || freshPost; //dataRef doesnt get passed, so dataRef=freshPost
   var token = request.cookies.get('token') || request.body.token; // body.token is for Slack
@@ -33,6 +55,9 @@ var insertPost = exports.insertPost = function(request, response, dataRef){
         var postMessage = request.body.message;
         var post = dataRef.push();    //ID generator
         var postId = post.key();      //Grabs the ID...eg(JzSSocAObWXssweuiJP)
+        //
+        //0.censor message
+        postMessage = censor(postMessage);
         //
         //1.store messages to FireBase with these key/value pairs.
         post.set({                    //Pushes the post data into the database
@@ -163,7 +188,7 @@ var comment = exports.comment = function(request, response, dataRef){
     }
     else {
       var messageId = request.body.messageId;      //The post/message ID where the comment resides
-      var commentMessage = request.body.comment;
+      var commentMessage = censor(request.body.comment);
       var comments = dataRef.child( messageId + '/comments');
 
       var comment = comments.push();  //ID generator
