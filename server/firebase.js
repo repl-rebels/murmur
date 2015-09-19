@@ -28,7 +28,6 @@ var censoredWords = {
   bitch: 'bee',
   shit: 'squirrel',
   damn: 'doggie',
-  hell: 'hippopotamus',
   cunt: 'crocodile'
 };
 
