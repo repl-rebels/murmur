@@ -1,8 +1,11 @@
 var Firebase = require('firebase');
 var myDataRef = new Firebase('https://radiant-heat-7333.firebaseio.com/');
-var tokenFactory = require('./firebaseTokenFactory').tokenFactory;
+// var myDataRef = new Firebase('https://blinding-torch-8900.firebaseio.com/');
+var tokenFactory = require('./firebaseTokenFactory').tokenFactory
 var Cookies = require('cookies');
 var httpRequest = require('request');
+
+var db = myDataRef;
 
 var freshPost = myDataRef.child('Fresh Post');
 
@@ -39,7 +42,6 @@ var censor = exports.censor = function(string) {
   return string;
 };
 
-
 var insertPost = exports.insertPost = function(request, response, dataRef) {
   var dataRef = dataRef || freshPost; //dataRef doesnt get passed, so dataRef=freshPost
   var token = request.cookies.get('token') || request.body.token; // body.token is for Slack
@@ -52,6 +54,7 @@ var insertPost = exports.insertPost = function(request, response, dataRef) {
         console.log("Login Failed! @31 with token: ", token, "and error message...", error);
       } else {
         var postMessage = request.body.message;
+
         var post = dataRef.push(); //ID generator
         var postId = post.key(); //Grabs the ID...eg(JzSSocAObWXssweuiJP)
         //
@@ -68,11 +71,25 @@ var insertPost = exports.insertPost = function(request, response, dataRef) {
           comments: "no comments"
         });
 
+        //Post hashtags in the message to the hashtags object ***new hashtag feature code (merge in)***
+        //1.5
+        if (postMessage.indexOf('#')) {
+          var hashtags = postMessage.split('#').slice(1);
+          for (var i = 0; i < hashtags.length; i++) {
+            hashtags[i].trim();
+            hashtags[i] = hashtags[i].split(" ")[0];
+          }
 
-        var fbRef = dataRef.parent();
-        var postIdRef = fbRef.child('sessions/' + authData.auth.uid + '/posted/' + postId);
+          for (var i = 0; i < hashtags.length; i++) {
+            var hashtag = hashtags[i];
+            myDataRef.child('hashtags').child(hashtag).push(postId);
+          }
+
+        }
         //
         //2. storage user session info to FireBase so that it can be used for voting/'my posts'
+        var fbRef = dataRef.parent();
+        var postIdRef = fbRef.child('sessions/' + authData.auth.uid + '/posted/' + postId);
         postIdRef.set({
           type: 'true'
         });
@@ -110,14 +127,24 @@ var insertPost = exports.insertPost = function(request, response, dataRef) {
   // return { newToken: newToken, auth: newJwtClaims };
 };
 
+var search = exports.search = function(request, response, dataRef){
+  var query = request.body.query;
+  var hashtagRef = db.child('hashtags').child(query).on('value', function(snapshot) {
+    console.log(snapshot.val());
+  });
+  console.log(hashtagRef);
+  //need to return the messages whose ids are inside
+
+}
+
 var votePost = exports.votePost = function(request, response, dataRef) {
+>>>>>>> origin/production
   var dataRef = dataRef || freshPost;
-  var token = request.cookies.get('token');
-  var newToken;
-  var newJwtClaims;
+  // var token = request.cookies.get('token');
+  // var newToken;
+  // var newJwtClaims;
 
-  if (token) {
-
+  // if (token) {
     dataRef.authWithCustomToken(token, function(error, authData) {
       if (error) {
         console.log("Login Failed!", error);
@@ -181,7 +208,7 @@ var votePost = exports.votePost = function(request, response, dataRef) {
 
 var comment = exports.comment = function(request, response, dataRef) {
   var dataRef = dataRef || freshPost;
-  var token = request.body.token;
+  // var token = request.body.token;
 
   dataRef.authWithCustomToken(token, function(error, authData) {
     if (error) {
@@ -190,7 +217,6 @@ var comment = exports.comment = function(request, response, dataRef) {
       var messageId = request.body.messageId; //The post/message ID where the comment resides
       var commentMessage = censor(request.body.comment);
       var comments = dataRef.child(messageId + '/comments');
-
       var comment = comments.push(); //ID generator
       var commentId = comment.key(); //Grabs the ID
 
@@ -213,6 +239,7 @@ var comment = exports.comment = function(request, response, dataRef) {
           hairId: authData.auth.hairId
         });
       });
+
     }
   });
 };
@@ -278,6 +305,7 @@ var voteComment = exports.voteComment = function(request, response, dataRef) {
         // newToken = tokenFactory(newJwtClaims);
 
         // setTokenCookie(request, response, newToken);
+
       }
     });
   }

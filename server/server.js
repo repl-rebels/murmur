@@ -6,7 +6,9 @@ var bodyParser = require('body-parser');
 var Cookies = require("cookies");
 var serverUrl = '127.0.0.1';
 var fs = require('fs');
+var cors = require('cors');
 
+app.use(cors());
 app.use('/murmur', express.static('../client'));
 app.use(bodyParser.json());
 
@@ -76,14 +78,18 @@ app.post('/', function(request, response) { //request.body.url = 'newPost'
     if (slackObject.token === 'nZg1PC40VFQvtd4efRvcr14N') {
       request.body.token = tokenFactory();
       request.body.message = urlDecode(slackObject.text);
-    }
+    // }
     console.log('SLAAAAAAAAACK', request.body);
     firebase.insertPost(request, response);
   });
   firebase.insertPost(request, response);
 });
 
-app.post('/comment', function(request, response) { //request.body.url = 'newPost'
+app.post('/search', function(request, response){ //request.body.url = ?
+  firebase.search(request, response);
+})
+
+app.post('/comment', function(request, response){ //request.body.url = 'newPost'
   firebase.comment(request, response);
 });
 
