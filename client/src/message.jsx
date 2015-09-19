@@ -168,12 +168,16 @@ var Message = React.createClass({
                 </span>
               </div>
             </div>
+            <div className='col-xs-2'>
+              <span style={{fontFamily:"Alegreya", fontStyle: "italic", fontSize: '.8em', position: 'relative', left: '30px', top: '7px'}}>Murmured in {this.props.city}</span>
+            </div>
           </div>
 
           <div style={ this.state.commentsView ? this.styles.commentsView : this.styles.hidden }>
             <CommentBox messageId={ this.props.messageId } token={ this.props.token } auth={ this.props.auth }/>
             { commentRowsSortedOptions['recent'] }
           </div>
+
 
         </div>
       </div>

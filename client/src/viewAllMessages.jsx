@@ -24,7 +24,8 @@ var ViewAllMessages = React.createClass({
           comments={ message.comments }
           votes={ message.votes }
           messageId={ message.messageId }
-          timestamp={ message.timestamp }/>
+          timestamp={ message.timestamp }
+          city = { message.city }/>
       )
     }
 
