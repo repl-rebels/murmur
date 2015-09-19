@@ -4,7 +4,7 @@ var TopBar = require('./topbar');
 var InputBox = require('./inputbox');
 var SearchBox = require('./searchbox');
 var Firebase = require('firebase');
-
+var SearchBox = require('./searchbox');
 
 var getCookies = function(){
   var pairs = document.cookie.split(";");
@@ -31,6 +31,7 @@ var mainView = React.createClass({
       token: '',
       auth: '',
       sessions: '',
+      city: '',
     };
   },
 
@@ -87,6 +88,23 @@ var mainView = React.createClass({
   toggleInputBox: function(){
     this.setState({ input: !this.state.input });
   },
+  storeCoords: function(position){
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+    $.get('https://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+lon+'&key=AIzaSyByyIGPuJwVZ4HR8ZyAAO55Mny5NdCz3II')
+      .done(function(data){
+        console.log(data);
+        localStorage.setItem('city', data.results[0].address_components[3].long_name);
+        console.log(data.results[0].address_components[3].long_name);
+    })
+    console.log(lat);
+  },
+  getGeo: function(){
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(this.storeCoords);
+    }
+  },
+
   render: function(){
     return (
       <div>
@@ -98,9 +116,13 @@ var mainView = React.createClass({
               <button className="btn btn-default" style={{fontFamily: 'Roboto'}} onClick={ this.handleSortPopular }> Hot </button>
               <button className="btn btn-default" style={{fontFamily: 'Roboto'}} onClick={ this.handleFavorites }>Favorites</button>
               <button className="btn btn-default" style={{fontFamily: 'Roboto'}} onClick={ this.handleMyPosts }>My Posts</button>
+              <button className="btn btn-Info" style={{fontFamily: 'Roboto'}} onClick={ this.getGeo }>GeoLocation Access</button>
+            
             </div>
-            <InputBox token={ this.state.token } auth={ this.state.auth }/>
-            <SearchBox token={ this.state.token } auth={ this.state.auth }/>
+            <div>
+              <InputBox token={ this.state.token } auth={ this.state.auth }/>
+              <SearchBox token={ this.state.token } auth={ this.state.auth }/>
+            </div>
           </div>
           <ViewAllMessages sortBy={ this.state.sort } messages={ this.state.messages } sessions={ this.state.sessions }token={ this.state.token } auth={ this.state.auth }/>
         </div>

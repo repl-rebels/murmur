@@ -31,7 +31,6 @@ var censoredWords = {
   bitch: 'bee',
   shit: 'squirrel',
   damn: 'doggie',
-  hell: 'hippopotamus',
   cunt: 'crocodile'
 };
 
@@ -68,11 +67,12 @@ var insertPost = exports.insertPost = function(request, response, dataRef) {
           message: postMessage,
           timestamp: Firebase.ServerValue.TIMESTAMP,
           votes: 0,
-          comments: "no comments"
+          comments: "no comments",
+          city: request.body.city
         });
 
-        //Post hashtags in the message to the hashtags object ***new hashtag feature code (merge in)***
-        //1.5
+
+        //Post hashtags in the message to the hashtags object
         if (postMessage.indexOf('#')) {
           var hashtags = postMessage.split('#').slice(1);
           for (var i = 0; i < hashtags.length; i++) {
@@ -129,16 +129,13 @@ var insertPost = exports.insertPost = function(request, response, dataRef) {
 
 var search = exports.search = function(request, response, dataRef){
   var query = request.body.query;
-  var hashtagRef = db.child('hashtags').child(query).on('value', function(snapshot) {
+  var hashtagRef = myDataRef.child('hashtags').child(query).on('value', function(snapshot) {
     console.log(snapshot.val());
   });
-  console.log(hashtagRef);
   //need to return the messages whose ids are inside
-
 }
 
 var votePost = exports.votePost = function(request, response, dataRef) {
->>>>>>> origin/production
   var dataRef = dataRef || freshPost;
   // var token = request.cookies.get('token');
   // var newToken;
