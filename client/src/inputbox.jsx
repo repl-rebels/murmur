@@ -23,12 +23,13 @@ var InputBox = React.createClass({
 
   enterPressed: function(event) {
     if(event.keyCode === 13) {
+      var city = localStorage.getItem('city');
       event.preventDefault();
       $.ajax({ // Post message
         type: 'POST',
         url: url,
         contentType: 'application/json',
-        data: JSON.stringify({ "message": this.state.message }),
+        data: JSON.stringify({ "message": this.state.message, "city": city}),
         success: function(d){
           console.log('POST successful: ', d);
         }
@@ -41,6 +42,7 @@ var InputBox = React.createClass({
   // Post a message when "Submit" button is clicked
   handleClick: function(event){
     event.preventDefault();
+      var city = localStorage.getItem('city');
     $.ajax({ // Post message
       type: 'POST',
       url: url,
@@ -49,7 +51,8 @@ var InputBox = React.createClass({
       data: JSON.stringify({
         "uid": this.props.auth.uid,
         "message": this.state.message,
-        "token": this.props.token
+        "token": this.props.token,
+        "city": city
       }
       ),
       success: function(d){
