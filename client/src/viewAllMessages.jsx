@@ -11,19 +11,19 @@ var ViewAllMessages = React.createClass({
       var commentRows = [];
       var message = messagesObject[messageKey];
       messageRows.push(
-        <Message;
-          uid={ message.uid };
-          sessions={ this.props.sessions };
-          messageId={ message.messageId };
-          key={ message.messageId };
-          token={ this.props.token };
-          auth={ this.props.auth };
-          baseId={ message.baseId};
-          hairId={ message.hairId};
-          message={ message.message };
-          comments={ message.comments };
-          votes={ message.votes };
-          messageId={ message.messageId };
+        <Message
+          uid={ message.uid }
+          sessions={ this.props.sessions }
+          messageId={ message.messageId }
+          key={ message.messageId }
+          token={ this.props.token }
+          auth={ this.props.auth }
+          baseId={ message.baseId}
+          hairId={ message.hairId}
+          message={ message.message }
+          comments={ message.comments }
+          votes={ message.votes }
+          messageId={ message.messageId }
           timestamp={ message.timestamp }/>
       )
     }
