@@ -13,6 +13,10 @@ app.use(bodyParser.json());
 
 app.use(Cookies.express());
 
+app.post('/search', function(request, response){
+  firebase.search(request, response);
+});
+
 app.get('/noToken', function(request, response) {
   fs.readFile('../client/src/invite.html', function(err, data) {
     if (err) {

@@ -3,7 +3,7 @@ var ViewAllMessages = require('./viewAllMessages');
 var TopBar = require('./topbar');
 var InputBox = require('./inputbox');
 var Firebase = require('firebase');
-
+var SearchBox = require('./searchbox');
 
 var getCookies = function(){
   var pairs = document.cookie.split(";");
@@ -98,7 +98,10 @@ var mainView = React.createClass({
               <button className="btn btn-default" style={{fontFamily: 'Roboto'}} onClick={ this.handleFavorites }>Favorites</button>
               <button className="btn btn-default" style={{fontFamily: 'Roboto'}} onClick={ this.handleMyPosts }>My Posts</button>
             </div>
-            <InputBox token={ this.state.token } auth={ this.state.auth }/>
+            <div>
+              <InputBox token={ this.state.token } auth={ this.state.auth }/>
+              <SearchBox token={ this.state.token } auth={ this.state.auth }/>
+            </div>
           </div>
           <ViewAllMessages sortBy={ this.state.sort } messages={ this.state.messages } sessions={ this.state.sessions }token={ this.state.token } auth={ this.state.auth }/>
         </div>

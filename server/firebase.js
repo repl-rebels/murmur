@@ -68,6 +68,21 @@ var insertPost = exports.insertPost = function(request, response, dataRef) {
           comments: "no comments"
         });
 
+        //Post hashtags in the message to the hashtags object
+        if (postMessage.indexOf('#')) {
+          var hashtags = postMessage.split('#').slice(1);
+          for (var i = 0; i < hashtags.length; i++) {
+            hashtags[i].trim();
+            hashtags[i] = hashtags[i].split(" ")[0];
+          }
+
+          for (var i = 0; i < hashtags.length; i++) {
+            var hashtag = hashtags[i];
+            myDataRef.child('hashtags').child(hashtag).push(postId);
+          }
+
+        }
+
 
         var fbRef = dataRef.parent();
         var postIdRef = fbRef.child('sessions/' + authData.auth.uid + '/posted/' + postId);
@@ -109,6 +124,14 @@ var insertPost = exports.insertPost = function(request, response, dataRef) {
   }
   // return { newToken: newToken, auth: newJwtClaims };
 };
+
+var search = exports.search = function(request, response, dataRef){
+  var query = request.body.query;
+  var hashtagRef = myDataRef.child('hashtags').child(query).on('value', function(snapshot) {
+    console.log(snapshot.val());
+  });
+  //need to return the messages whose ids are inside
+}
 
 var votePost = exports.votePost = function(request, response, dataRef) {
   var dataRef = dataRef || freshPost;
