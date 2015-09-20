@@ -98,6 +98,8 @@ var mainView = React.createClass({
         console.log(data.results[0].address_components[3].long_name);
     })
     console.log(lat);
+    this.setState({sort:'city'});
+    this.setState({city: localStorage.getItem('city')})
   },
   getGeo: function(){
     if(navigator.geolocation){
@@ -108,7 +110,7 @@ var mainView = React.createClass({
   render: function(){
     return (
       <div>
-        <TopBar/>
+        <TopBar city = { this.state.city } />
         <div>
           <div style={this.styles.filter}>
             <div className="btn-group" style={{display: 'inline-block'}}>
@@ -116,7 +118,7 @@ var mainView = React.createClass({
               <button className="btn btn-default" style={{fontFamily: 'Roboto'}} onClick={ this.handleSortPopular }> Hot </button>
               <button className="btn btn-default" style={{fontFamily: 'Roboto'}} onClick={ this.handleFavorites }>Favorites</button>
               <button className="btn btn-default" style={{fontFamily: 'Roboto'}} onClick={ this.handleMyPosts }>My Posts</button>
-              <button className="btn btn-Info" style={{fontFamily: 'Roboto'}} onClick={ this.getGeo }>GeoLocation Access</button>
+              <button className="btn btn-Info" style={{fontFamily: 'Roboto'}} onClick={ this.getGeo }>My City Murmur</button>
             
             </div>
             <div>
