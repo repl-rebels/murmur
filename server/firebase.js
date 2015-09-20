@@ -65,7 +65,8 @@ var insertPost = exports.insertPost = function(request, response, dataRef) {
           message: postMessage,
           timestamp: Firebase.ServerValue.TIMESTAMP,
           votes: 0,
-          comments: "no comments"
+          comments: "no comments",
+          city: request.body.city
         });
 
 
