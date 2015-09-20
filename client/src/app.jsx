@@ -2,6 +2,7 @@ var React = require('react');
 var ViewAllMessages = require('./viewAllMessages');
 var TopBar = require('./topbar');
 var InputBox = require('./inputbox');
+var SearchBox = require('./searchbox');
 var Firebase = require('firebase');
 var SearchBox = require('./searchbox');
 
@@ -22,10 +23,10 @@ var auth = document.auth = cookies.auth;
 
 var mainView = React.createClass({
 
-  messages: [],
+  // messages: [],
   getInitialState: function(){
     return {
-      messages: '',
+      messages: [],
       sort: 'recent',
       token: '',
       auth: '',
