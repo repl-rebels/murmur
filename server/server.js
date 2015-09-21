@@ -19,44 +19,47 @@ app.post('/search', function(request, response){
   firebase.search(request, response);
 });
 
-app.get('/noToken', function(request, response) {
-  fs.readFile('../client/src/invite.html', function(err, data) {
-    if (err) {
-      console.log('error reading invite.html');
-    }
-    response.setHeader('Content-Type', 'text/html');
-    response.send(data);
-  });
-});
+// app.get('/noToken', function(request, response) {
+//   fs.readFile('../client/src/invite.html', function(err, data) {
+//     if (err) {
+//       console.log('error reading invite.html');
+//     }
+//     response.setHeader('Content-Type', 'text/html');
+//     response.send(data);
+//   });
+// });
 
-app.post('/noToken', function(request, response) {
-  if (request.cookies.get('token')) {
-    console.log('already have a token');
-    request.method = 'get';
-    // response.redirect('/murmur');
-    response.send({
-      redirect: '/murmur'
-    });
-  } else if (request.body.inviteCode === 'mks22') { // set Token Cookie
-    response.cookies.set('token', tokenFactory(), {
-      maxAge: 2628000000, // expires in 1 month
-      httpOnly: false, // more secure but then can't access from client
-    });
-    request.method = 'get';
-    response.send({
-      redirect: '/murmur'
-    });
-  } else {
-    response.send('Correct Invitation Code Required.');
-  }
-});
+// app.post('/noToken', function(request, response) {
+//   if (request.cookies.get('token')) {
+//     console.log('already have a token');
+//     request.method = 'get';
+//     // response.redirect('/murmur');
+//     response.send({
+//       redirect: '/murmur'
+//     });
+//   } else if (request.body.inviteCode === 'mks22') { // set Token Cookie
+//     response.cookies.set('token', tokenFactory(), {
+//       maxAge: 2628000000, // expires in 1 month
+//       httpOnly: false, // more secure but then can't access from client
+//     });
+//     request.method = 'get';
+//     response.send({
+//       redirect: '/murmur'
+//     });
+//   } else {
+//     response.send('Correct Invitation Code Required.');
+//   }
+// });
 
 app.get('/', function(request, response) {
   if (request.cookies.get('token')) {
     response.redirect('/murmur');
   } else {
-    console.log('no token redirect');
-    response.redirect('/noToken');
+    response.cookies.set('token', tokenFactory(), {
+      maxAge: 604800000, // expires in 1 week
+      httpOnly: false, // more secure but then can't access from client
+    });
+    response.redirect('/murmur');
   }
 });
 
@@ -82,7 +85,7 @@ app.post('/', function(request, response) { //request.body.url = 'newPost'
     if (slackObject.token === 'nZg1PC40VFQvtd4efRvcr14N') {
       request.body.token = tokenFactory();
       request.body.message = urlDecode(slackObject.text);
-    // }
+    }
     console.log('SLAAAAAAAAACK', request.body);
     firebase.insertPost(request, response);
   });

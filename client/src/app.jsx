@@ -23,7 +23,7 @@ var auth = document.auth = cookies.auth;
 
 var mainView = React.createClass({
 
-  // messages: [],
+  messages: [],
   getInitialState: function(){
     return {
       messages: [],
@@ -119,7 +119,7 @@ var mainView = React.createClass({
               <button className="btn btn-default" style={{fontFamily: 'Roboto'}} onClick={ this.handleFavorites }>Favorites</button>
               <button className="btn btn-default" style={{fontFamily: 'Roboto'}} onClick={ this.handleMyPosts }>My Posts</button>
               <button className="btn btn-Info" style={{fontFamily: 'Roboto'}} onClick={ this.getGeo }>My City Murmur</button>
-            
+
             </div>
             <div>
               <InputBox token={ this.state.token } auth={ this.state.auth }/>
