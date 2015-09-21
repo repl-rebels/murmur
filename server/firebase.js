@@ -151,9 +151,9 @@ var search = exports.search = function(request, response, dataRef){
 
 var votePost = exports.votePost = function(request, response, dataRef) {
   var dataRef = dataRef || freshPost;
-  // var token = request.cookies.get('token');
-  // var newToken;
-  // var newJwtClaims;
+  var token = request.cookies.get('token');
+  var newToken;
+  var newJwtClaims;
 
   if (token) {
     dataRef.authWithCustomToken(token, function(error, authData) {
@@ -219,7 +219,7 @@ var votePost = exports.votePost = function(request, response, dataRef) {
 
 var comment = exports.comment = function(request, response, dataRef) {
   var dataRef = dataRef || freshPost;
-  // var token = request.body.token;
+  var token = request.body.token;
 
   dataRef.authWithCustomToken(token, function(error, authData) {
     if (error) {
