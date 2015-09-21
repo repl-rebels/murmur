@@ -35,40 +35,58 @@ var ViewAllMessages = React.createClass({
       recent: messageRows.sort(function(a,b){
         return b.props.timestamp - a.props.timestamp;
       }).filter(function(message){
-        if(localStorage.getItem('city')){
+        if(localStorage.getItem('city') && context.props.hashtagQuery === ''){
           if(localStorage.getItem('city')===message._store.props.city){
-            if(message._store.props.hashtag === context.props.hashtagQuery){
-              return true;
-            }
+            return true;
           }
         }
-        if(!localStorage.getItem('city')){
+        if(localStorage.getItem('city') && context.props.hashtagQuery !== ''){
+          if(localStorage.getItem('city')===message._store.props.city 
+            && context.props.hashtagQuery === message._store.props.hashtag){
+            return true;
+          }
+        }
+
+        if(!localStorage.getItem('city') && context.props.hashtagQuery === ''){
           if(!message._store.props.city){
-            if(message._store.props.hashtag === context.props.hashtagQuery){
-              return true;
-            }
+            return true;
           }
         }
+        if(!localStorage.getItem('city') && context.props.hashtagQuery !== ''){
+          if(!message._store.props.city && context.props.hashtagQuery === message._store.props.hashtag){
+            return true;
+          }
+        }
+        
         return false;
       }),
 
       popular: messageRows.slice().sort(function(a,b){
         return b.props.votes - a.props.votes;
       }).filter(function(message){
-        if(localStorage.getItem('city')){
+        if(localStorage.getItem('city') && context.props.hashtagQuery === ''){
           if(localStorage.getItem('city')===message._store.props.city){
-            if(message._store.props.hashtag === context.props.hashtagQuery){
-              return true;
-            }
+            return true;
           }
         }
-        if(!localStorage.getItem('city')){
+        if(localStorage.getItem('city') && context.props.hashtagQuery !== ''){
+          if(localStorage.getItem('city')===message._store.props.city 
+            && context.props.hashtagQuery === message._store.props.hashtag){
+            return true;
+          }
+        }
+
+        if(!localStorage.getItem('city') && context.props.hashtagQuery === ''){
           if(!message._store.props.city){
-            if(message._store.props.hashtag === context.props.hashtagQuery){
-              return true;
-            }          
+            return true;
           }
         }
+        if(!localStorage.getItem('city') && context.props.hashtagQuery !== ''){
+          if(!message._store.props.city && context.props.hashtagQuery === message._store.props.hashtag){
+            return true;
+          }
+        }
+        
         return false;
       }),
       
