@@ -1,10 +1,11 @@
 var React = require('react');
-var url = 'http://107.170.240.99:4000/';
+var url = 'http://127.0.0.1:4000/';
+// var url = 'http://107.170.240.99:4000/';
 
 var InputBox = React.createClass({
   getInitialState: function() {
     return {
-      message: ''
+      message: '',
     };
   },
   // Update message value whenever user changes the message in the input box
@@ -22,12 +23,13 @@ var InputBox = React.createClass({
 
   enterPressed: function(event) {
     if(event.keyCode === 13) {
+      var city = localStorage.getItem('city');
       event.preventDefault();
       $.ajax({ // Post message
         type: 'POST',
         url: url,
         contentType: 'application/json',
-        data: JSON.stringify({ "message": this.state.message }),
+        data: JSON.stringify({ "message": this.state.message, "city": city}),
         success: function(d){
           console.log('POST successful: ', d);
         }
@@ -40,6 +42,7 @@ var InputBox = React.createClass({
   // Post a message when "Submit" button is clicked
   handleClick: function(event){
     event.preventDefault();
+      var city = localStorage.getItem('city');
     $.ajax({ // Post message
       type: 'POST',
       url: url,
@@ -48,7 +51,8 @@ var InputBox = React.createClass({
       data: JSON.stringify({
         "uid": this.props.auth.uid,
         "message": this.state.message,
-        "token": this.props.token
+        "token": this.props.token,
+        "city": city
       }
       ),
       success: function(d){
@@ -58,13 +62,20 @@ var InputBox = React.createClass({
     this.setState({message: ''}); // Clear input box
     console.log(this.state);
   },
+  //Posts a search Query when "Submit'
+  handleSearch: function(event){
+    event.preventDefault();
+    this.props.replaceFunc(this.state.message);
+  },
+
   // two-way binding inputbox's value and this.state.message
   render: function() {
     return (
       <div className="input-group" style = {{padding: '15px'}}>
-        <input value={this.state.message} onChange={this.handleChange} onKeyDown={this.enterPressed} type="text" className="form-control"  placeholder="What's on your mind?" />
+        <input value={this.state.message} onChange={this.handleChange} onKeyDown={this.enterPressed} type="text" className="form-control"  placeholder="What's on your mind? / Search Hashtags" />
         <span className="input-group-btn">
           <button onClick={this.handleClick} className="btn btn-success" type="button"> Submit </button>
+          <button onClick={this.handleSearch} className="btn btn-danger" type='button'> Search </button>
         </span>
       </div>
     )

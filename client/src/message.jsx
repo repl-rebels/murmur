@@ -3,7 +3,8 @@ var moment = require('moment');
 var CommentBox = require('./commentBox');
 var CommentMessage = require('./commentMessage');
 
-var url = 'http://107.170.240.99:4000/';
+// var url = 'http://107.170.240.99:4000/';
+var url = 'http://127.0.0.1:4000/';
 
 var Message = React.createClass({
 
@@ -14,7 +15,7 @@ var Message = React.createClass({
   },
 
   toggleCommentsView: function(){
-    this.setState({ commentsView: !this.state.commentsView })
+    this.setState({ commentsView: !this.state.commentsView });
   },
 
   // Post upvote data to Server
@@ -167,12 +168,16 @@ var Message = React.createClass({
                 </span>
               </div>
             </div>
+            <div className='col-xs-2'>
+              <span style={{fontFamily:"Alegreya", fontStyle: "italic", fontSize: '.8em', position: 'relative', left: '30px', top: '7px'}}>Murmured in {this.props.city}</span>
+            </div>
           </div>
 
           <div style={ this.state.commentsView ? this.styles.commentsView : this.styles.hidden }>
             <CommentBox messageId={ this.props.messageId } token={ this.props.token } auth={ this.props.auth }/>
             { commentRowsSortedOptions['recent'] }
           </div>
+
 
         </div>
       </div>

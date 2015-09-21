@@ -1,5 +1,5 @@
 var React = require('react');
-var url = 'http://107.170.240.99:4000/comment';
+var url = 'http://127.0.0.1:4000/comment';
 
 var commentBox = React.createClass({
   getInitialState: function() {
@@ -10,7 +10,7 @@ var commentBox = React.createClass({
   // Update message value whenever user changes the message in the comment box
   handleChange: function(event){
     if(event.target.value.length <= 150) { // Message cannot be longer than 150 characters
-      console.log(this.props.token)
+      console.log(this.props.token);
       this.setState({
         'comment': event.target.value,
       });

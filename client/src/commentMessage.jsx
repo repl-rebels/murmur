@@ -2,13 +2,14 @@ var React = require('react');
 var moment = require('moment');
 var Face = require('./face');
 
-var url = 'http://107.170.240.99:4000/';
+var url = 'http://127.0.0.1:4000/';
+// var url = 'http://107.170.240.99:4000/';
 
 module.exports = React.createClass({
   getInitialState: function() {
     return {
       commentBox: 'false',
-    }
+    };
   },
   upVote: function(event){
 
@@ -24,7 +25,7 @@ module.exports = React.createClass({
       }),
       success: function(){
       }
-    })
+    });
   },
   downVote: function(event){
 
@@ -40,7 +41,7 @@ module.exports = React.createClass({
       }),
       success: function(){
       }
-    })
+    });
   },
   render: function() {
     return (
