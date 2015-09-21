@@ -71,6 +71,9 @@ var mainView = React.createClass({
         console.log('inSession', dataSnapshot.val());
       }.bind(this));
     }
+    if(localStorage.getItem('city')){
+      this.setState({city: localStorage.getItem('city')})
+    }
   },
 
   handleSortRecent: function(){

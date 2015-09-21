@@ -4,7 +4,7 @@ var Message = require('./message');
 var ViewAllMessages = React.createClass({
   render: function() {
     var messagesObject = this.props.messages; // from Firebase
-
+    var context = this;
     // Push messages from Firebase to messageRows
     var messageRows = [];
     for(messageKey in messagesObject){
@@ -37,12 +37,16 @@ var ViewAllMessages = React.createClass({
       }).filter(function(message){
         if(localStorage.getItem('city')){
           if(localStorage.getItem('city')===message._store.props.city){
-            return true;
+            if(message._store.props.hashtag === context.props.hashtagQuery){
+              return true;
+            }
           }
         }
         if(!localStorage.getItem('city')){
           if(!message._store.props.city){
-            return true;
+            if(message._store.props.hashtag === context.props.hashtagQuery){
+              return true;
+            }
           }
         }
         return false;
@@ -52,13 +56,17 @@ var ViewAllMessages = React.createClass({
         return b.props.votes - a.props.votes;
       }).filter(function(message){
         if(localStorage.getItem('city')){
-          if((localStorage.getItem('city')===message._store.props.city)){
-            return true;
+          if(localStorage.getItem('city')===message._store.props.city){
+            if(message._store.props.hashtag === context.props.hashtagQuery){
+              return true;
+            }
           }
         }
         if(!localStorage.getItem('city')){
           if(!message._store.props.city){
-            return true;
+            if(message._store.props.hashtag === context.props.hashtagQuery){
+              return true;
+            }          
           }
         }
         return false;
