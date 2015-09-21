@@ -128,8 +128,7 @@ var mainView = React.createClass({
               <button className="btn btn-default" style={{fontFamily: 'Roboto'}} onClick={ this.handleSortPopular }> Hot </button>
               <button className="btn btn-default" style={{fontFamily: 'Roboto'}} onClick={ this.handleFavorites }>Favorites</button>
               <button className="btn btn-default" style={{fontFamily: 'Roboto'}} onClick={ this.handleMyPosts }>My Posts</button>
-              <button className="btn btn-Info" style={{fontFamily: 'Roboto'}} onClick={ this.getGeo }>My City Murmur</button>
-              <button className="btn btn-Info" style={{fontFamily: 'Roboto'}} onClick={ this.getGeo }>Go to My City</button>
+              <button className="btn btn-Info" style={{fontFamily: 'Roboto'}} onClick={ this.getGeo }>My City</button>
               <button className="btn btn-default" style={{fontFamily: 'Roboto'}} onClick={ this.back }> Home </button>
             </div>
             <InputBox token={ this.state.token } auth={ this.state.auth } replaceFunc = {this.replaceFunc}/>
