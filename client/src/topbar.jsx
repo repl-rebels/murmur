@@ -1,6 +1,7 @@
 var React = require('react');
 
 TopBar = React.createClass({
+
   render: function() {
     return (
       <div className="navbar navbar-default navbar-fixed-top" style={{'backgroundColor': 'rgb(5,101,188)'}}>

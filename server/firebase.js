@@ -60,6 +60,19 @@ var insertPost = exports.insertPost = function(request, response, dataRef) {
         //0.censor message
         postMessage = censor(postMessage);
         //
+        //retrieve hashtag from message
+        var hashtags;
+        if(postMessage.indexOf('#')){
+          hashtags = postMessage.split('#').slice(1);
+          for(var i = 0; i < hashtags.length; i++){
+            hashtags[i].trim();
+            hashtags[i] = hashtags[i].split(' ')[0];
+          }
+        }
+        if(hashtags.length=== 0){
+          hashtags[0] = '';
+        }
+
         //1.store messages to FireBase with these key/value pairs.
         post.set({ //Pushes the post data into the database
           uid: authData.auth.uid, //the guid generated from firebaseTokenFactory.a random 37-char guid. eg('74c11731-c901-9e4e-331d-61e983a4fbb5')
@@ -68,7 +81,8 @@ var insertPost = exports.insertPost = function(request, response, dataRef) {
           timestamp: Firebase.ServerValue.TIMESTAMP,
           votes: 0,
           comments: "no comments",
-          city: request.body.city
+          city: request.body.city,
+          hashtag: hashtags[0],
         });
 
 
