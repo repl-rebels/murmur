@@ -141,7 +141,7 @@ var votePost = exports.votePost = function(request, response, dataRef) {
   // var newToken;
   // var newJwtClaims;
 
-  // if (token) {
+  if (token) {
     dataRef.authWithCustomToken(token, function(error, authData) {
       if (error) {
         console.log("Login Failed!", error);
