@@ -31,6 +31,7 @@ var mainView = React.createClass({
       auth: '',
       sessions: '',
       city: '',
+      hashtagQuery: '',
     };
   },
 
@@ -105,6 +106,10 @@ var mainView = React.createClass({
       navigator.geolocation.getCurrentPosition(this.storeCoords);
     }
   },
+  replaceFunc: function(newQuery){
+    this.setState({hashtagQuery: newQuery});
+    console.log(newQuery)
+  },
 
   render: function(){
     return (
@@ -120,9 +125,9 @@ var mainView = React.createClass({
               <button className="btn btn-Info" style={{fontFamily: 'Roboto'}} onClick={ this.getGeo }>My City Murmur</button>
             
             </div>
-            <InputBox token={ this.state.token } auth={ this.state.auth }/>
+            <InputBox token={ this.state.token } auth={ this.state.auth } replaceFunc = {this.replaceFunc}/>
           </div>
-          <ViewAllMessages sortBy={ this.state.sort } messages={ this.state.messages } sessions={ this.state.sessions }token={ this.state.token } auth={ this.state.auth }/>
+          <ViewAllMessages sortBy={ this.state.sort } messages={ this.state.messages } sessions={ this.state.sessions }token={ this.state.token } auth={ this.state.auth } hashtagQuery={this.state.hashtagQuery}/>
         </div>
       </div>
     )

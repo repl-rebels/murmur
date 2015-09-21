@@ -25,7 +25,8 @@ var ViewAllMessages = React.createClass({
           votes={ message.votes }
           messageId={ message.messageId }
           timestamp={ message.timestamp }
-          city = { message.city }/>
+          city = { message.city }
+          hashtag = { message.hashtag } />
       )
     }
 
@@ -51,7 +52,7 @@ var ViewAllMessages = React.createClass({
         return b.props.votes - a.props.votes;
       }).filter(function(message){
         if(localStorage.getItem('city')){
-          if(localStorage.getItem('city')===message._store.props.city){
+          if((localStorage.getItem('city')===message._store.props.city)){
             return true;
           }
         }
@@ -80,7 +81,6 @@ var ViewAllMessages = React.createClass({
       }.bind(this)),
       
       city: messageRows.filter(function(message){
-          console.log(message._store.props.city, 'isnide VIEW ALL MESSAGES')
         if(localStorage.getItem('city')===message._store.props.city){
           return true;
         }
